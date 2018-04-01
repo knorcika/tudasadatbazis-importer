@@ -8,7 +8,7 @@ include "./view/index.html";
 if (isset($_POST['submit'])) {
     $table = explode('.', $_FILES['table']['name'])[0];
     $res = $db->query("SELECT * FROM $table");
-    if (!$res->isError()) {
+    if ($res->getResult() === false) {
         echo 'Table is not found!<br>';
         die();
     }
@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
                     }
                 }
                 $sql = 'INSERT INTO ' . $table . ' (' . implode(',', $fields) . ') VALUES (' . implode(',', $values) . ')';
-                if ($db->query($sql)->isError()) {
+                if ($db->query($sql)->getResult() !== false) {
                     echo 'Row ' . ($row - 1) . '. inserted. <br>';
                 } else {
                     echo 'Row ' . ($row - 1) . '. insert error. <br>' . $sql . '<br>';
@@ -44,7 +44,7 @@ if (isset($_POST['submit'])) {
 
 if (isset($_POST['submit2'])) {
     $query = $db->query($_POST['query']);
-    if ($query->isError()) {
+    if ($query->getResult() !== false) {
         echo 'SQL executed.<br>';
     } else {
         echo 'SQL execute failed.<br>';

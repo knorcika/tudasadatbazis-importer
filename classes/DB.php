@@ -29,16 +29,10 @@ class DB
         try {
             $this->result = oci_parse($this->connection, $sql);
             oci_execute($this->result);
-            $this->error = false;
         } catch (Exception $e) {
-            $this->error = true;
+            echo $e["message"];
         }
         return $this;
-    }
-
-    public function isError()
-    {
-        return $this->error;
     }
 
     public function getResult()
